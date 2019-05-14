@@ -58,7 +58,7 @@ PACKAGECONFIG[debug-webcore] = "remove_webcore_debug_symbols=false,remove_webcor
 # servers and workstations with a big number of cores. In case build is
 # happening in a machine with less cores but still enough RAM a good value could
 # be 50.
-JUMBO_FILE_MERGE_LIMIT="8"
+JUMBO_FILE_MERGE_LIMIT="50"
 PACKAGECONFIG[jumbo] = "use_jumbo_build=true jumbo_file_merge_limit=${JUMBO_FILE_MERGE_LIMIT}, use_jumbo_build=false"
 
 PACKAGECONFIG[lttng] = "use_lttng=true,use_lttng=false,lttng-ust,lttng-tools lttng-modules babeltrace"
@@ -174,6 +174,10 @@ ARM_FLOAT_ABI = "${@bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', 'h
 GN_ARGS_append_armv6 = " arm_arch=\"armv6\" arm_version=6 arm_float_abi=\"${ARM_FLOAT_ABI}\""
 GN_ARGS_append_armv7a = " arm_arch=\"armv7-a\" arm_version=7 arm_float_abi=\"${ARM_FLOAT_ABI}\""
 GN_ARGS_append_armv7ve = " arm_arch=\"armv7ve\" arm_version=7 arm_float_abi=\"${ARM_FLOAT_ABI}\""
+
+# TMP: Disable tcmalloc to test on RPi3
+GN_ARGS_append_armv7ve += "use_allocator=\"none\""
+
 # tcmalloc's atomicops-internals-arm-v6plus.h uses the "dmb" instruction that
 # is not available on (some?) ARMv6 models, which causes the build to fail.
 GN_ARGS_append_armv6 += 'use_allocator="none"'
@@ -218,7 +222,7 @@ configure_env() {
     export PATH="${S}/depot_tools:$PATH"
 
     GN_ARGS="${GN_ARGS}"
-    echo GN_ARGS is ${GN_ARGS}
+    echo GN_ARGS is ${GN_ARGS} >>"$HOME/.yocto.log"
     echo BUILD_TARGETS are ${TARGET}
     cd ${SRC_DIR}
     gn gen ${OUT_DIR}/${BUILD_TYPE} --args="${GN_ARGS}"
