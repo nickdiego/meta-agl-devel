@@ -58,7 +58,7 @@ PACKAGECONFIG[debug-webcore] = "remove_webcore_debug_symbols=false,remove_webcor
 # servers and workstations with a big number of cores. In case build is
 # happening in a machine with less cores but still enough RAM a good value could
 # be 50.
-JUMBO_FILE_MERGE_LIMIT="8"
+JUMBO_FILE_MERGE_LIMIT="50"
 PACKAGECONFIG[jumbo] = "use_jumbo_build=true jumbo_file_merge_limit=${JUMBO_FILE_MERGE_LIMIT}, use_jumbo_build=false"
 
 PACKAGECONFIG[lttng] = "use_lttng=true,use_lttng=false,lttng-ust,lttng-tools lttng-modules babeltrace"
