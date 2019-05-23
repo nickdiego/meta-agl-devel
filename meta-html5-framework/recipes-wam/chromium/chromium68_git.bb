@@ -51,7 +51,7 @@ PACKAGECONFIG ?= "jumbo use-upstream-wayland"
 # Add the following line to local.conf (or local.dev.inc) to enable them:
 #   PACKAGECONFIG_append_pn-chromium68 = " debug debug-webcore"
 # By default debug is completely disabled to speed up build
-PACKAGECONFIG[debug] = "is_debug=false is_component_build=false symbol_level=2, is_debug=false symbol_level=0"
+PACKAGECONFIG[debug] = "is_debug=false is_component_build=false symbol_level=1, is_debug=false symbol_level=0"
 PACKAGECONFIG[debug-webcore] = "remove_webcore_debug_symbols=false,remove_webcore_debug_symbols=true"
 
 # Set a default value for jumbo file merge of 8. This should be good for build
@@ -333,3 +333,10 @@ FILES_${PN}-dev = " \
 "
 
 FILES_${PN}-cross-mksnapshot = "${bindir_cross}/${HOST_SYS}-mksnapshot.gz"
+
+# Skip debug strip of do_populate_sysroot()
+INHIBIT_SYSROOT_STRIP = "1"
+
+# Skip debug split and strip of do_package()
+INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+INHIBIT_PACKAGE_STRIP = "1"
