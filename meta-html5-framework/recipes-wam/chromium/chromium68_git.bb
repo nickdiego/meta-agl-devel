@@ -157,6 +157,7 @@ GN_ARGS += "\
         linux_use_bundled_binutils=false \
         target_cpu=\"${@gn_target_arch_name(d)}\" \
         v8_snapshot_toolchain=\"//build/toolchain/yocto:yocto_target\" \
+        fatal_linker_warnings=false \
 "
 
 # ARM builds need special additional flags (see ${S}/build/config/arm.gni).
